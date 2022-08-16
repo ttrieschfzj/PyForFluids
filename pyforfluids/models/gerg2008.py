@@ -13,7 +13,7 @@ class GERG2008:
     GERG2008 Equation of state described by O. Kunz and W. Wagner [1]_
 
     The components must be those of the GERG2008 model.
-    This class use imported methods from Fortran subroutines for high speed
+    This class uses imported methods from Fortran subroutines for high speed
     calculation of properties.
 
     Methods
@@ -21,7 +21,7 @@ class GERG2008:
     validate_components:
         Check if the components belong to the EOS.
     validate_ranges:
-        Check in which range of validity are the temperature and pressure.
+        Check in which range of validity the temperatures and pressures are.
     set_concentration:
         Normalize the composition as molar fractions.
     calculate_properties:
@@ -293,6 +293,7 @@ class GERG2008:
             "isentropic_exponent": k,
             "second_thermal_virial_coeff": b,
             "third_thermal_virial_coeff": c,
+            "mean_molecular_weight": m,
         }
 
     def __repr__(self):

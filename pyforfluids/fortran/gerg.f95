@@ -53,7 +53,7 @@ Subroutine reducing_funcs(X, rho_r, T_r)
    end do
    end if
    end do
-   ! Actually, the reducing volume was calculated, let's make it into density
+   ! Actually, the reducing volume was calculated, let's convert it into a density
    rho_r = 1 / rho_r
 End Subroutine reducing_funcs
 
@@ -62,7 +62,7 @@ End Subroutine reducing_funcs
 Subroutine a_oio(rho, T, rho_c, T_c, n, v, aoio)
    ! IDEAL GAS ENERGY
    ! ----------------
-   ! Calculate the pure compound ideal Helmholtz Enegry and its derivatives
+   ! Calculate the pure compound ideal Helmholtz Energy and its derivatives
    !
    ! input:
    ! - rho (float): Density
@@ -73,7 +73,7 @@ Subroutine a_oio(rho, T, rho_c, T_c, n, v, aoio)
    ! - v (dimension): v parameters
    ! output:
    ! - aoio: Ideal Gas Helmholtz Energy and its derivatives,
-   ! stoikuctured like:
+   ! structured like:
    ! --------------+------------------+------------------|
    ! aoio          |     0            |    0             |
    ! d(aoio)/dd    |     d(aoio)/dt   |    0             |
@@ -204,7 +204,7 @@ Subroutine a_ijr(delta, tau, Kpolij, Kexpij, &
                  n, d, t, eta, eps, gamm, beta, aijr)
    ! DEPARTURE FUNCTION ENERGY
    ! ---------------
-   ! Caculate binary departure Helmholtz Energy and its derivatives
+   ! Calculate binary departure Helmholtz Energy and its derivatives
    !
    ! input:
    ! - delta  (float)         : reduced density
@@ -220,7 +220,7 @@ Subroutine a_ijr(delta, tau, Kpolij, Kexpij, &
    ! - beta   (dimension)     : parameters beta
    ! output:
    ! - aijr: Binary departure Helmholtz Energy and its derivatives,
-   ! stoikuctured like:
+   ! structured like:
    ! ---------------+------------------+------------------|
    ! aijr           |      0            |   0             |
    ! d(aijr)/dd     |      d(aijr)/dt   |   0             |

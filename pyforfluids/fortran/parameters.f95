@@ -10,18 +10,48 @@ Module parameters
    integer, dimension(21, 21, 12) :: dij
    integer, dimension(21, 21) :: Kpolij, Kexpij
    real(8), dimension(21) :: T_c, rho_c, M
-   integer :: tmp1(3), tmp2(14) ! This variables are used to define indexes for repeated terms
+   integer :: tmp1(3), tmp2(14) ! These variables are used to define indexes for repeated terms
    real(8), dimension(21, 12) :: n0i, th0i
    real(8) :: R, eps = 1d-10
 
 End Module
 
+! component identification:
+! ---------------------
+! (1) methane,
+! (2) nitrogen,
+! (3) carbon_dioxide,
+! (4) ethane,
+! (5) propane,
+! (6) butane,
+! (7) isobutane,
+! (8) pentane,
+! (9) isopentane,
+! (10) hexane,
+! (11) heptane,
+! (12) octane,
+! (13) nonane,
+! (14) decane,
+! (15) hydrogen,
+! (16) oxygen,
+! (17) carbon_monoxide,
+! (18) water,
+! (19) hydrogen_sulfide,
+! (20) helium,
+! (21) argon,
+! ---------------------
+
 Subroutine get_params()
    use parameters
    integer :: i, j, k
+   
+! universal gas constant R
    R = 8.314472d0
+   
+! number of registered components
    N = 21
 
+! critical temperature T_c [K]
    T_c(1) = 190.564d0
    T_c(2) = 126.192d0
    T_c(3) = 304.1282d0
@@ -44,6 +74,7 @@ Subroutine get_params()
    T_c(20) = 5.1953d0
    T_c(21) = 150.687d0
 
+! critical density rho_c [mol/l]
    rho_c(1) = 10.139342719d0
    rho_c(2) = 11.1839d0
    rho_c(3) = 10.624978698d0
@@ -66,6 +97,7 @@ Subroutine get_params()
    rho_c(20) = 17.399d0
    rho_c(21) = 13.407429659d0
 
+! molecular weight M [g/mol]
    M(1) = 16.04246d0
    M(2) = 28.0134d0
    M(3) = 44.0095d0
@@ -88,6 +120,7 @@ Subroutine get_params()
    M(20) = 4.002602d0
    M(21) = 39.948d0
 
+! Table D.5 (ISO 20765-2:2015)
    Fij(1, 2) = 1.0d0
    Fij(1, 3) = 1.0d0
    Fij(1, 4) = 1.0d0
@@ -104,6 +137,7 @@ Subroutine get_params()
    Fij(5, 7) = - 0.551609771024d-1
    Fij(6, 7) = - 0.551240293009d-1
 
+! Table E.1 (ISO 20765-2:2015)
    red_params(1, 2, :) = (/ 0.998721377d0, 1.013950311d0, 0.998098830d0, 0.979273013d0 /)
    red_params(1, 3, :) = (/ 0.999518072d0, 1.002806594d0, 1.022624490d0, 0.975665369d0 /)
    red_params(1, 4, :) = (/ 0.997547866d0, 1.006617867d0, 0.996336508d0, 1.049707697d0 /)
@@ -324,6 +358,7 @@ Subroutine get_params()
    end do
    end do
 
+!Table D.1 (ISO 20765-2:2015) (noik) methane
    noik(1, 1) = 0.57335704239162d0
    noik(1, 2) = - 0.16760687523730d1
    noik(1, 3) = 0.23405291834916d0
@@ -349,6 +384,7 @@ Subroutine get_params()
    noik(1, 23) = - 0.33752085907575d-1
    noik(1, 24) = - 0.25127658213357d-2
 
+!Table D.1 (ISO 20765-2:2015) (noik) nitrogen
    noik(2, 1) = 0.59889711801201d0
    noik(2, 2) = - 0.16941557480731d1
    noik(2, 3) = 0.24579736191718d0
@@ -374,6 +410,7 @@ Subroutine get_params()
    noik(2, 23) = - 0.36251690750939d-1
    noik(2, 24) = - 0.28974026866543d-2
 
+!Table D.3 (ISO 20765-2:2015) (noik) carbon_dioxide
    noik(3, 1) = 0.52646564804653d0
    noik(3, 2) = - 0.14995725042592d1
    noik(3, 3) = 0.27329786733782d0
@@ -397,6 +434,7 @@ Subroutine get_params()
    noik(3, 21) = 0.15190189957331d-1
    noik(3, 22) = - 0.15380948953300d-1
 
+!Table D.1 (ISO 20765-2:2015) (noik) ethane
    noik(4, 1) = 0.63596780450714d0
    noik(4, 2) = - 0.17377981785459d1
    noik(4, 3) = 0.28914060926272d0
@@ -422,6 +460,7 @@ Subroutine get_params()
    noik(4, 23) = - 0.39401755804649d-1
    noik(4, 24) = - 0.32569956247611d-2
 
+! Table D.2 (ISO 20765-2:2015) (noik) propane
    noik(5, 1) = 0.10403973107358d1
    noik(5, 2) = - 0.28318404081403d1
    noik(5, 3) = 0.84393809606294d0
@@ -435,6 +474,7 @@ Subroutine get_params()
    noik(5, 11) = - 0.29632145981653d-1
    noik(5, 12) = 0.14040126751380d-1
 
+! Table D.2 (ISO 20765-2:2015) (noik) butane
    noik(6, 1) = 0.10626277411455d1
    noik(6, 2) = - 0.28620951828350d1
    noik(6, 3) = 0.88738233403777d0
@@ -448,6 +488,7 @@ Subroutine get_params()
    noik(6, 11) = - 0.20636720547775d-1
    noik(6, 12) = 0.57053809334750d-2
 
+! Table D.2 (ISO 20765-2:2015) (noik) isobutane
    noik(7, 1) = 0.10429331589100d1
    noik(7, 2) = - 0.28184272548892d1
    noik(7, 3) = 0.86176232397850d0
@@ -461,6 +502,7 @@ Subroutine get_params()
    noik(7, 11) = - 0.29761373251151d-1
    noik(7, 12) = 0.13059630303140d-1
 
+! Table D.2 (ISO 20765-2:2015) (noik) pentane
    noik(8, 1) = 0.10968643098001d1
    noik(8, 2) = - 0.29988888298061d1
    noik(8, 3) = 0.99516886799212d0
@@ -474,6 +516,7 @@ Subroutine get_params()
    noik(8, 11) = - 0.32073223327990d-1
    noik(8, 12) = 0.16877016216975d-1
 
+! Table D.2 (ISO 20765-2:2015) (noik) isopentane
    noik(9, 1) = 0.10963d1
    noik(9, 2) = - 0.30402d1
    noik(9, 3) = 0.10317d1
@@ -487,6 +530,7 @@ Subroutine get_params()
    noik(9, 11) = - 0.35484d-1
    noik(9, 12) = 0.18156d-1
 
+! Table D.2 (ISO 20765-2:2015) (noik) hexane
    noik(10, 1) = 0.10553238013661d1
    noik(10, 2) = - 0.26120615890629d1
    noik(10, 3) = 0.76613882967260d0
@@ -500,6 +544,7 @@ Subroutine get_params()
    noik(10, 11) = - 0.67273247155994d-2
    noik(10, 12) = - 0.51141583585428d-2
 
+! Table D.2 (ISO 20765-2:2015) (noik) heptane
    noik(11, 1) = 0.10543747645262d1
    noik(11, 2) = - 0.26500681506144d1
    noik(11, 3) = 0.81730047827543d0
@@ -513,6 +558,7 @@ Subroutine get_params()
    noik(11, 11) = - 0.61595287380011d-2
    noik(11, 12) = 0.48602510393022d-3
 
+! Table D.2 (ISO 20765-2:2015) (noik) octane
    noik(12, 1) = 0.10722544875633d1
    noik(12, 2) = - 0.24632951172003d1
    noik(12, 3) = 0.65386674054928d0
@@ -526,6 +572,7 @@ Subroutine get_params()
    noik(12, 11) = - 0.78966330500036d-2
    noik(12, 12) = 0.33036597968109d-2
 
+! Table D.2 (ISO 20765-2:2015) (noik) nonane
    noik(13, 1) = 0.11151d1
    noik(13, 2) = - 0.27020d1
    noik(13, 3) = 0.83416d0
@@ -539,6 +586,7 @@ Subroutine get_params()
    noik(13, 11) = - 0.12982d-1
    noik(13, 12) = 0.44325d-2
 
+! Table D.2 (ISO 20765-2:2015) (noik) decane
    noik(14, 1) = 0.10461d1
    noik(14, 2) = - 0.24807d1
    noik(14, 3) = 0.74372d0
@@ -552,6 +600,7 @@ Subroutine get_params()
    noik(14, 11) = - 0.20775d-1
    noik(14, 12) = 0.12335d-1
 
+! Table D.3 (ISO 20765-2:2015) (noik) hydrogen
    noik(15, 1) = 0.53579928451252d1
    noik(15, 2) = - 0.62050252530595d1
    noik(15, 3) = 0.13830241327086d0
@@ -567,6 +616,7 @@ Subroutine get_params()
    noik(15, 13) = - 0.10499521374530d-1
    noik(15, 14) = - 0.28955902866816d-2
 
+! Table D.2 (ISO 20765-2:2015) (noik) oxygen
    noik(16, 1) = 0.88878286369701d0
    noik(16, 2) = - 0.24879433312148d1
    noik(16, 3) = 0.59750190775886d0
@@ -580,6 +630,7 @@ Subroutine get_params()
    noik(16, 11) = - 0.25675298677127d-1
    noik(16, 12) = 0.95714302123668d-2
 
+! Table D.2 (ISO 20765-2:2015) (noik) carbon_monoxide
    noik(17, 1) = 0.90554d0
    noik(17, 2) = - 0.24515d1
    noik(17, 3) = 0.53149d0
@@ -593,6 +644,7 @@ Subroutine get_params()
    noik(17, 11) = - 0.34154d-1
    noik(17, 12) = 0.16329d-1
 
+! Table D.3 (ISO 20765-2:2015) (noik)
    noik(18, 1) = 0.82728408749586d0
    noik(18, 2) = - 0.18602220416584d1
    noik(18, 3) = - 0.11199009613744d1
@@ -610,6 +662,7 @@ Subroutine get_params()
    noik(18, 15) = - 0.66062758068099d-2
    noik(18, 16) = 0.46918522004538d-2
 
+! Table D.2 (ISO 20765-2:2015) (noik) hydrogen_sulfide
    noik(19, 1) = 0.87641d0
    noik(19, 2) = - 0.20367d1
    noik(19, 3) = 0.21634d0
@@ -623,6 +676,7 @@ Subroutine get_params()
    noik(19, 11) = - 0.14885d-1
    noik(19, 12) = 0.74154d-2
 
+! Table D.3 (ISO 20765-2:2015) (noik) helium
    noik(20, 1) = - 0.45579024006737d0
    noik(20, 2) = 0.12516390754925d1
    noik(20, 3) = - 0.15438231650621d1
@@ -636,6 +690,7 @@ Subroutine get_params()
    noik(20, 11) = - 0.10863577372367d-1
    noik(20, 12) = - 0.22173365245954d-1
 
+! Table D.2 (ISO 20765-2:2015) (noik) argon
    noik(21, 1) = 0.85095714803969d0
    noik(21, 2) = - 0.24003222943480d1
    noik(21, 3) = 0.54127841476466d0
@@ -649,6 +704,7 @@ Subroutine get_params()
    noik(21, 11) = - 0.24987666851475d-1
    noik(21, 12) = 0.88769204815709d-2
 
+!Table D.3 (ISO 20765-2:2015) (coik) carbon_dioxide
    coik(3, 5) = 1
    coik(3, 6) = 1
    coik(3, 7) = 1
@@ -668,6 +724,7 @@ Subroutine get_params()
    coik(3, 21) = 6
    coik(3, 22) = 6
 
+!Table D.3 (ISO 20765-2:2015) (coik) hydrogen
    coik(15, 6) = 1
    coik(15, 7) = 1
    coik(15, 8) = 1
@@ -678,6 +735,7 @@ Subroutine get_params()
    coik(15, 13) = 3
    coik(15, 14) = 5
 
+!Table D.3 (ISO 20765-2:2015) (coik) water
    coik(18, 8) = 1
    coik(18, 9) = 1
    coik(18, 10) = 1
@@ -688,6 +746,7 @@ Subroutine get_params()
    coik(18, 15) = 5
    coik(18, 16) = 5
 
+!Table D.3 (ISO 20765-2:2015) (coik) helium
    coik(20, 5) = 1
    coik(20, 6) = 1
    coik(20, 7) = 1
@@ -697,6 +756,8 @@ Subroutine get_params()
    coik(20, 11) = 3
    coik(20, 12) = 3
 
+!Table D.1 (ISO 20765-2:2015) (doik, coik, toik, Kpol, Kexp)
+! methane, nitrogen, ethane
    tmp1 = (/ 1, 2, 4 /)
 
    do i = 1, size(tmp1)
@@ -775,6 +836,9 @@ Subroutine get_params()
 
    end do
 
+!Table D.2 (ISO 20765-2:2015) (doik, coik, toik, Kpol, Kexp)
+! propane, butane, isobutane, pentane, isopentane, hexane, heptane, octane,
+! nonane, decane, oxygen, carbon_monoxide, hydrogen_sulfide, argon
    tmp2 = (/ 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21 /)
 
    do i = 1, size(tmp2)
@@ -818,15 +882,19 @@ Subroutine get_params()
 
    end do
 
+!Table D.3 (ISO 20765-2:2015) carbon_dioxide
    Kpol(3) = 4
    Kexp(3) = 18
 
+!Table D.3 (ISO 20765-2:2015) hydrogen
    Kpol(15) = 5
    Kexp(15) = 9
 
+!Table D.3 (ISO 20765-2:2015) water
    Kpol(18) = 7
    Kexp(18) = 9
 
+!Table D.3 (ISO 20765-2:2015) helium
    Kpol(20) = 4
    Kexp(20) = 8
 
@@ -856,6 +924,7 @@ Subroutine get_params()
    toik(20, 11) = 4.500d0
    toik(20, 12) = 5.000d0
 
+!Table D.3 (ISO 20765-2:2015) water
    doik(18, 1) = 1
    doik(18, 2) = 1
    doik(18, 3) = 1
@@ -890,6 +959,7 @@ Subroutine get_params()
    toik(18, 15) = 4.000d0
    toik(18, 16) = 6.000d0
 
+!Table D.3 (ISO 20765-2:2015) hydrogen
    doik(15, 1) = 1
    doik(15, 2) = 1
    doik(15, 3) = 2
@@ -920,6 +990,7 @@ Subroutine get_params()
    toik(15, 13) = 8.000d0
    toik(15, 14) = 8.000d0
 
+!Table D.3 (ISO 20765-2:2015) carbon_dioxide
    doik(3, 1) = 1
    doik(3, 2) = 1
    doik(3, 3) = 2
@@ -967,7 +1038,9 @@ Subroutine get_params()
    toik(3, 22) = 26.000d0
 
 ! Departure function parameters
+! Table D.4 (ISO 20765-2:2015)
 
+! methane-nitrogen
    dij(1, 2, 1) = 1
    dij(1, 2, 2) = 4
    dij(1, 2, 3) = 1
@@ -1030,6 +1103,7 @@ Subroutine get_params()
    gammaij(1, 2, 8) = 0.5d0
    gammaij(1, 2, 9) = 0.5d0
 
+! methane-carbon_dioxide
    dij(1, 3, 1) = 1
    dij(1, 3, 2) = 2
    dij(1, 3, 3) = 3
@@ -1067,6 +1141,7 @@ Subroutine get_params()
    gammaij(1, 3, 5) = 0.5d0
    gammaij(1, 3, 6) = 0.5d0
 
+! methane-ethane
    dij(1, 4, 1) = 3
    dij(1, 4, 2) = 4
    dij(1, 4, 3) = 1
@@ -1150,6 +1225,7 @@ Subroutine get_params()
    gammaij(1, 4, 11) = 0.5d0
    gammaij(1, 4, 12) = 0.5d0
 
+! methane-propane
    dij(1, 5, 1) = 3
    dij(1, 5, 2) = 3
    dij(1, 5, 3) = 4
@@ -1200,6 +1276,7 @@ Subroutine get_params()
    gammaij(1, 5, 8) = 0.5d0
    gammaij(1, 5, 9) = 0.5d0
 
+! nitrogen-carbon_dioxide
    dij(2, 3, 1) = 2
    dij(2, 3, 2) = 3
    dij(2, 3, 3) = 1
@@ -1241,6 +1318,7 @@ Subroutine get_params()
    gammaij(2, 3, 5) = 0.5d0
    gammaij(2, 3, 6) = 0.5d0
 
+! nitrogen-ethane
    dij(2, 4, 1) = 2
    dij(2, 4, 2) = 2
    dij(2, 4, 3) = 3
@@ -1278,6 +1356,7 @@ Subroutine get_params()
    gammaij(2, 4, 5) = 0.5d0
    gammaij(2, 4, 6) = 0.5d0
 
+! methane-hydrogen
    dij(1, 15, 1) = 1
    dij(1, 15, 2) = 3
    dij(1, 15, 3) = 3
@@ -1302,6 +1381,8 @@ Subroutine get_params()
    generalized_departure(7, :) = (/ 5, 7 /)
    generalized_departure(8, :) = (/ 6, 7 /)
 
+! methane-butane,methane-isobutane,ethane-propane,ethane-butane,
+! ethane-isobutane,propane-butane,propane-isobutane,butane-isobutane
    do k = 1, 8
       i = generalized_departure(k, 1)
       j = generalized_departure(k, 2)
@@ -1344,27 +1425,35 @@ Subroutine get_params()
 
    end do
 
+! methane-nitrogen
    KPolij(1, 2) = 2
    KExpij(1, 2) = 7
 
+! methane-carbon_dioxide
    KPolij(1, 3) = 3
    KExpij(1, 3) = 3
 
+! methane-ethane
    KPolij(1, 4) = 2
    KExpij(1, 4) = 10
 
+! methane-propane
    KPolij(1, 5) = 5
    KExpij(1, 5) = 4
 
+! nitrogen-carbon_dioxide
    KPolij(2, 3) = 2
    KExpij(2, 3) = 4
 
+! nitrogen-ethane
    KPolij(2, 4) = 3
    KExpij(2, 4) = 3
 
+! methane-hydrogen
    KPolij(1, 15) = 4
    KExpij(1, 15) = 0
 
+! Table B.1 (ISO 20765-2:2015) methane
    n0i(1, 1) = 19.597508817d0
    n0i(1, 2) = - 83.959667892d0
    n0i(1, 3) = 3.00088d0
@@ -1373,6 +1462,7 @@ Subroutine get_params()
    n0i(1, 6) = 8.74432d0
    n0i(1, 7) = - 4.46921d0
 
+! Table B.1 (ISO 20765-2:2015) nitrogen
    n0i(2, 1) = 11.083407489d0
    n0i(2, 2) = - 22.202102428d0
    n0i(2, 3) = 2.50031d0
@@ -1381,6 +1471,7 @@ Subroutine get_params()
    n0i(2, 6) = 0.90066d0
    n0i(2, 7) = 0.0d0
 
+! Table B.1 (ISO 20765-2:2015) carbon_dioxide
    n0i(3, 1) = 11.925152758d0
    n0i(3, 2) = - 16.118762264d0
    n0i(3, 3) = 2.50002d0
@@ -1389,6 +1480,7 @@ Subroutine get_params()
    n0i(3, 6) = 2.03366d0
    n0i(3, 7) = 0.01393d0
 
+! Table B.1 (ISO 20765-2:2015) ethane
    n0i(4, 1) = 24.675437527d0
    n0i(4, 2) = - 77.425313760d0
    n0i(4, 3) = 3.00263d0
@@ -1397,6 +1489,7 @@ Subroutine get_params()
    n0i(4, 6) = 13.19740d0
    n0i(4, 7) = - 6.01989d0
 
+! Table B.1 (ISO 20765-2:2015) propane
    n0i(5, 1) = 31.602908195d0
    n0i(5, 2) = - 84.463284382d0
    n0i(5, 3) = 3.02939d0
@@ -1405,6 +1498,7 @@ Subroutine get_params()
    n0i(5, 6) = 19.19210d0
    n0i(5, 7) = - 8.37267d0
 
+! Table B.1 (ISO 20765-2:2015) butane
    n0i(6, 1) = 20.884143364d0
    n0i(6, 2) = - 91.638478026d0
    n0i(6, 3) = 3.33944d0
@@ -1413,6 +1507,7 @@ Subroutine get_params()
    n0i(6, 6) = 24.46180d0
    n0i(6, 7) = 14.78240d0
 
+! Table B.1 (ISO 20765-2:2015) isobutane
    n0i(7, 1) = 20.413726078d0
    n0i(7, 2) = - 94.467620036d0
    n0i(7, 3) = 3.06714d0
@@ -1421,6 +1516,7 @@ Subroutine get_params()
    n0i(7, 6) = 25.14230d0
    n0i(7, 7) = 16.13880d0
 
+! origin of values? original paper?
    n0i(8, 1) = 14.536611217d0
    n0i(8, 2) = - 89.919548319d0
    n0i(8, 3) = 3.00000d0
@@ -1477,6 +1573,8 @@ Subroutine get_params()
    n0i(14, 6) = 58.36570d0
    n0i(14, 7) = 0.0d0
 
+! from here on again as per 
+! Table B.1 (ISO 20765-2:2015) hydrogen
    n0i(15, 1) = 13.796443393d0
    n0i(15, 2) = - 175.864487294d0
    n0i(15, 3) = 1.47906d0
@@ -1485,6 +1583,7 @@ Subroutine get_params()
    n0i(15, 6) = 1.56039d0
    n0i(15, 7) = 1.37560d0
 
+! Table B.1 (ISO 20765-2:2015) oxygen
    n0i(16, 1) = 10.001843586d0
    n0i(16, 2) = - 14.996095135d0
    n0i(16, 3) = 2.50146d0
@@ -1493,6 +1592,7 @@ Subroutine get_params()
    n0i(16, 6) = 0.0d0
    n0i(16, 7) = 0.0d0
 
+! Table B.1 (ISO 20765-2:2015) carbon_monoxide
    n0i(17, 1) = 10.813340744d0
    n0i(17, 2) = - 19.834733959d0
    n0i(17, 3) = 2.50055d0
@@ -1501,6 +1601,7 @@ Subroutine get_params()
    n0i(17, 6) = 0.0d0
    n0i(17, 7) = 0.0d0
 
+! Table B.1 (ISO 20765-2:2015) water
    n0i(18, 1) = 8.203520690d0
    n0i(18, 2) = - 11.996306443d0
    n0i(18, 3) = 3.00392d0
@@ -1509,6 +1610,7 @@ Subroutine get_params()
    n0i(18, 6) = 3.06904d0
    n0i(18, 7) = 0.0d0
 
+! Table B.1 (ISO 20765-2:2015) hydrogen_sulfide
    n0i(19, 1) = 9.336197742d0
    n0i(19, 2) = - 16.266508995d0
    n0i(19, 3) = 3.00000d0
@@ -1517,6 +1619,7 @@ Subroutine get_params()
    n0i(19, 6) = 0.0d0
    n0i(19, 7) = 0.0d0
 
+! Table B.1 (ISO 20765-2:2015) helium
    n0i(20, 1) = 13.628409737d0
    n0i(20, 2) = - 143.470759602d0
    n0i(20, 3) = 1.50000d0
@@ -1525,6 +1628,7 @@ Subroutine get_params()
    n0i(20, 6) = 0.0d0
    n0i(20, 7) = 0.0d0
 
+! Table B.1 (ISO 20765-2:2015) argon
    n0i(21, 1) = 8.316631500d0
    n0i(21, 2) = - 4.946502600d0
    n0i(21, 3) = 1.50000d0
@@ -1533,86 +1637,108 @@ Subroutine get_params()
    n0i(21, 6) = 0.0d0
    n0i(21, 7) = 0.0d0
 
+! Table B.1 (ISO 20765-2:2015) (theta)
+! methane
    th0i(1, 4) = 4.306474465d0
    th0i(1, 5) = 0.936220902d0
    th0i(1, 6) = 5.577233895d0
    th0i(1, 7) = 5.722644361d0
+! nitrogen
    th0i(2, 4) = 5.251822620d0
    th0i(2, 5) = - 5.393067706d0
    th0i(2, 6) = 13.788988208d0
    th0i(2, 7) = 0.0d0
+! carbon_dioxide
    th0i(3, 4) = 3.022758166d0
    th0i(3, 5) = - 2.844425476d0
    th0i(3, 6) = 1.589964364d0
    th0i(3, 7) = 1.121596090d0
+! ethane
    th0i(4, 4) = 1.831882406d0
    th0i(4, 5) = 0.731306621d0
    th0i(4, 6) = 3.378007481d0
    th0i(4, 7) = 3.508721939d0
+! propane
    th0i(5, 4) = 1.297521801d0
    th0i(5, 5) = 0.543210978d0
    th0i(5, 6) = 2.583146083d0
    th0i(5, 7) = 2.777773271d0
+! butane
    th0i(6, 4) = 1.101487798d0
    th0i(6, 5) = 0.431957660d0
    th0i(6, 6) = 4.502440459d0
    th0i(6, 7) = 2.124516319d0
+! isobutane
    th0i(7, 4) = 1.074673199d0
    th0i(7, 5) = 0.485556021d0
    th0i(7, 6) = 4.671261865d0
    th0i(7, 7) = 2.191583480d0
+! pentane
    th0i(8, 4) = 0.380391739d0
    th0i(8, 5) = 1.789520971d0
    th0i(8, 6) = 3.777411113d0
    th0i(8, 7) = 0.0d0
+! isopentane
    th0i(9, 4) = 0.635392636d0
    th0i(9, 5) = 1.977271641d0
    th0i(9, 6) = 4.169371131d0
    th0i(9, 7) = 0.0d0
+! hexane
    th0i(10, 4) = 0.359036667d0
    th0i(10, 5) = 1.691951873d0
    th0i(10, 6) = 3.596924107d0
    th0i(10, 7) = 0.0d0
+! heptane
    th0i(11, 4) = 0.314348398d0
    th0i(11, 5) = 1.548136560d0
    th0i(11, 6) = 3.259326458d0
    th0i(11, 7) = 0.0d0
+! octane
    th0i(12, 4) = 0.279143540d0
    th0i(12, 5) = 1.431644769d0
    th0i(12, 6) = 2.973845992d0
    th0i(12, 7) = 0.0d0
+! nonane
    th0i(13, 4) = 0.263819696d0
    th0i(13, 5) = 1.370586158d0
    th0i(13, 6) = 2.848860483d0
    th0i(13, 7) = 0.0d0
+! decane
    th0i(14, 4) = 0.267034159d0
    th0i(14, 5) = 1.353835195d0
    th0i(14, 6) = 2.833479035d0
    th0i(14, 7) = 0.0d0
+! hydrogen
    th0i(15, 4) = 6.891654113d0
    th0i(15, 5) = 9.847634830d0
    th0i(15, 6) = 49.765290750d0
    th0i(15, 7) = 50.367279301d0
+! oxygen
    th0i(16, 4) = 14.461722565d0
    th0i(16, 5) = 7.223325463d0
    th0i(16, 6) = 0.0d0
    th0i(16, 7) = 0.0d0
+! carbon_monoxide
    th0i(17, 4) = 11.669802800d0
    th0i(17, 5) = 5.302762306d0
    th0i(17, 6) = 0.0d0
    th0i(17, 7) = 0.0d0
+! water
    th0i(18, 4) = 0.415386589d0
    th0i(18, 5) = 1.763895929d0
    th0i(18, 6) = 3.874803739d0
    th0i(18, 7) = 0.0d0
+! hydrogen_sulfide
    th0i(19, 4) = 4.914580541d0
    th0i(19, 5) = 2.270653980d0
    th0i(19, 6) = 0.0d0
    th0i(19, 7) = 0.0d0
+! helium
    th0i(20, 4) = 0.0d0
    th0i(20, 5) = 0.0d0
    th0i(20, 6) = 0.0d0
    th0i(20, 7) = 0.0d0
+! argon
    th0i(21, 4) = 0.0d0
    th0i(21, 5) = 0.0d0
    th0i(21, 6) = 0.0d0
